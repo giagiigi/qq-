@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" output="web/apps/portal/WEB-INF/classes" path="websrc"/>
+	<classpathentry kind="src" path="rssrc"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="repository/commons-logging/jars/commons-logging.jar"/>
+	<classpathentry kind="lib" path="repository/springframework/jars/aopalliance.jar"/>
+	<classpathentry kind="lib" path="repository/springframework/jars/org.springframework.aop.jar"/>
+	<classpathentry kind="lib" path="repository/springframework/jars/org.springframework.beans.jar"/>
+	<classpathentry kind="lib" path="repository/springframework/jars/org.springframework.context.jar"/>
+	<classpathentry kind="lib" path="repository/springframework/jars/org.springframework.context.support.jar"/>
+	<classpathentry kind="lib" path="repository/springframework/jars/org.springframework.core.jar"/>
+	<classpathentry kind="lib" path="repository/springframework/jars/org.springframework.orm.jar"/>
+	<classpathentry kind="lib" path="repository/springframework/jars/org.springframework.transaction.jar"/>
+	<classpathentry kind="lib" path="repository/hibernate/jars/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="repository/hibernate/jars/hibernate3.jar"/>
+	<classpathentry kind="lib" path="repository/tomcat/jars/catalina.jar" sourcepath="D:/java/source/tomcat/java"/>
+	<classpathentry kind="lib" path="repository/commons-io/jars/commons-io.jar"/>
+	<classpathentry kind="lib" path="repository/commons-lang/jars/commons-lang.jar"/>
+	<classpathentry kind="lib" path="repository/jee-specs/servlet/jars/servlet-api.jar"/>
+	<classpathentry kind="lib" path="repository/springframework/jars/org.springframework.web.jar"/>
+	<classpathentry kind="lib" path="repository/springframework/jars/org.springframework.expression.jar"/>
+	<classpathentry kind="lib" path="repository/quartz/jars/quartz.jar"/>
+	<classpathentry kind="lib" path="repository/log4j/jars/log4j.jar" sourcepath="repository/log4j/src/log4j-1.2.17.zip"/>
+	<classpathentry kind="lib" path="repository/slf4j/jars/slf4j-api.jar"/>
+	<classpathentry kind="lib" path="repository/jee-specs/ejb3-persistence/jars/ejb3-persistence.jar"/>
+	<classpathentry kind="lib" path="repository/jee-specs/jta/jars/geronimo-jta.jar"/>
+	<classpathentry kind="lib" path="repository/springframework/jars/org.springframework.jdbc.jar"/>
+	<classpathentry kind="lib" path="repository/commons-codec/jars/commons-codec.jar"/>
+	<classpathentry kind="lib" path="repository/commons-pool/jars/commons-pool.jar"/>
+	<classpathentry kind="lib" path="repository/commons-pool2/jars/commons-pool2.jar"/>
+	<classpathentry kind="lib" path="repository/commons-dbcp/jars/commons-dbcp.jar"/>
+	<classpathentry kind="lib" path="repository/dom4j/jars/dom4j.jar"/>
+	<classpathentry kind="lib" path="repository/commons-collections/jars/commons-collections.jar"/>
+	<classpathentry kind="lib" path="repository/hibernate/jars/hibernate-commons-annotations.jar"/>
+	<classpathentry kind="lib" path="repository/hibernate/jars/javassist.jar"/>
+	<classpathentry kind="lib" path="repository/imf/jars/asn1-ibm.jar"/>
+	<classpathentry kind="lib" path="repository/imf/jars/imf4j.jar" sourcepath="repository/imf/jars/imf4j.jar"/>
+	<classpathentry kind="lib" path="repository/ehcache/jars/ehcache.jar"/>
+	<classpathentry kind="lib" path="repository/netty/jars/netty.jar" sourcepath="repository/netty/jars/netty-sources.jar"/>
+	<classpathentry kind="lib" path="repository/jersey/jars/jersey-core.jar"/>
+	<classpathentry kind="lib" path="repository/jersey/jars/jersey-json.jar"/>
+	<classpathentry kind="lib" path="repository/jersey/jars/jersey-multipart.jar"/>
+	<classpathentry kind="lib" path="repository/jersey/jars/jersey-server.jar"/>
+	<classpathentry kind="lib" path="repository/jersey/jars/jersey-servlet.jar"/>
+	<classpathentry kind="lib" path="repository/jersey/jars/jersey-spring.jar"/>
+	<classpathentry kind="lib" path="repository/commons-httpclient/jars/httpclient.jar"/>
+	<classpathentry kind="lib" path="repository/commons-httpclient/jars/httpcore.jar"/>
+	<classpathentry kind="lib" path="repository/buncycastle/jars/bcpkix.jar"/>
+	<classpathentry kind="lib" path="repository/buncycastle/jars/bcprov-ext.jar"/>
+	<classpathentry kind="lib" path="repository/buncycastle/jars/bcprov.jar"/>
+	<classpathentry kind="lib" path="repository/commons-compress/jars/commons-compress.jar"/>
+	<classpathentry kind="lib" path="repository/commons-configuration/jars/commons-configuration.jar"/>
+	<classpathentry kind="lib" path="repository/springframework/jars/org.springframework.webmvc.jar"/>
+	<classpathentry kind="lib" path="repository/springsecurity/jars/spring-security-cas.jar"/>
+	<classpathentry kind="lib" path="repository/springsecurity/jars/spring-security-config.jar"/>
+	<classpathentry kind="lib" path="repository/springsecurity/jars/spring-security-core.jar"/>
+	<classpathentry kind="lib" path="repository/springsecurity/jars/spring-security-taglibs.jar"/>
+	<classpathentry kind="lib" path="repository/springsecurity/jars/spring-security-web.jar"/>
+	<classpathentry kind="lib" path="repository/json-lib/jars/json-lib.jar"/>
+	<classpathentry kind="lib" path="repository/ezmorph/jars/ezmorph.jar"/>
+	<classpathentry kind="lib" path="repository/gson/jars/gson.jar"/>
+	<classpathentry kind="lib" path="repository/rabbitmq/jars/rabbitmq-client.jar"/>
+	<classpathentry kind="lib" path="repository/rabbitmq/jars/spring-amqp-1.4.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="repository/rabbitmq/jars/spring-erlang-1.4.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="repository/rabbitmq/jars/spring-rabbit-1.4.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="repository/rabbitmq/jars/spring-retry-1.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="repository/antlr/jars/antlr.jar"/>
+	<classpathentry kind="lib" path="repository/mysql-jdbc/jars/mysql.jar"/>
+	<classpathentry kind="lib" path="repository/slf4j/jars/slf4j-log4j12.jar"/>
+	<classpathentry kind="lib" path="repository/commons-beanutils/jars/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="bin/bootstrap.jar"/>
+	<classpathentry kind="lib" path="repository/o2o/jars/o2o_common_server.jar"/>
+	<classpathentry kind="lib" path="repository/o2o/jars/o2o_uam_rabbit.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="repository/o2o/jars/mng_mq.jar"/>
+	<classpathentry kind="lib" path="web/apps/portal/WEB-INF/lib/Sdk4J.jar"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+	<description>Define global resources for O2O, including MQ Broker, Web
+		Container.
+	</description>
+
+	<!-- ==================================================================== -->
+	<!-- 数据库 JDBC 初始化 -->
+	<!-- ==================================================================== -->
+	<!-- JDBC数据源 -->
+	<bean id="portalDataSource" class="com.h3c.oasis.o2oserver.common.AdaptableDataSource"
+		destroy-method="close">
+		<property name="componentId" value="O2O-UAM" />
+		<property name="maxActive" value="5" />
+		<property name="maxIdle" value="5" />
+		<property name="minIdle" value="0" />
+		<property name="maxWait" value="30000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+	</bean>
+	<bean id="portalSessionFactory"
+		class="com.h3c.oasis.o2oserver.common.AdaptableAnnotationSessionFactoryBean">
+		<property name="dataSource" ref="portalDataSource" />
+		<property name="annotatedClasses">
+			<list>
+				<value>com.h3c.o2o.portal.entity.ThemeTemplate</value>
+				<value>com.h3c.o2o.portal.entity.ThemePage</value>
+				<value>com.h3c.o2o.portal.entity.AccessDetail</value>
+				<value>com.h3c.o2o.portal.entity.AuthCfg</value>
+				<value>com.h3c.o2o.portal.entity.AuthParam</value>
+				<value>com.h3c.o2o.portal.entity.OnlineUser</value>
+				<value>com.h3c.o2o.portal.entity.RegistUser</value>
+				<value>com.h3c.o2o.portal.entity.UserAgent</value>
+				<value>com.h3c.o2o.portal.entity.BlackList</value>
+				<value>com.h3c.o2o.portal.entity.PublishMng</value>
+				<value>com.h3c.o2o.portal.entity.PublishMngPara</value>
+				<value>com.h3c.o2o.portal.rs.entity.ThirdPartyStrategy</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 事务管理对象 -->
+	<bean id="portalTxManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="portalSessionFactory" />
+	</bean>
+	<!-- 声明式事务管理 -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+	<bean
+		class="org.springframework.transaction.interceptor.TransactionAttributeSourceAdvisor">
+		<property name="transactionInterceptor" ref="portalTransactionInterceptor" />
+	</bean>
+	<bean id="portalTransactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="portalTxManager" />
+		<property name="transactionAttributeSource">
+			<bean
+				class="org.springframework.transaction.annotation.AnnotationTransactionAttributeSource" />
+		</property>
+	</bean>
+
+	<bean id="portalThemePageMgr" class="com.h3c.o2o.portal.theme.func.ThemePageMgrImpl">
+		<property name="themePageDao" ref="portalThemePageDao"></property>
+	</bean>
+	<bean id="portalThemePageDao" class="com.h3c.o2o.portal.theme.dao.ThemePageDaoImpl">
+		<property name="sessionFactory" ref="portalSessionFactory"></property>
+	</bean>
+	<!-- 用户登录 -->
+	<bean id="portalLoginMgr" class="com.h3c.o2o.portal.login.func.LoginMgrImpl">
+		<property name="themePageMgr" ref="portalThemePageMgr"></property>
+		<property name="userMgr" ref="userMgr"></property>
+		<property name="tokenMgr" ref="tokenMgr"></property>
+		<property name="messageMgr" ref="messageMgr"></property>
+		<property name="cacheApiMgr" ref="cacheApiMgr"></property>
+	</bean>
+	<!-- 协议接口 -->
+	<bean id="tokenMgr" class="com.h3c.o2o.portal.protocol.func.TokenMgrImpl"
+		init-method="init">
+		<property name="interval" value="600"></property>
+	</bean>
+	<bean id="protocolMgr" class="com.h3c.o2o.portal.protocol.func.ProtocolMgrImpl"
+		init-method="init">
+		<property name="weChatAuthUrl" value="/weixin/redirect"></property>
+		<property name="userMgr" ref="userMgr"></property>
+		<property name="userAgentMgr" ref="portalUserAgentMgr"></property>
+		<property name="tokenMgr" ref="tokenMgr"></property>
+		<property name="onlineUserMgr" ref="onlineUserMgr"></property>
+		<property name="accessUserDetailMgr" ref="accessUserDetailMgr"></property>
+		<property name="cacheApiMgr" ref="cacheApiMgr"></property>
+	</bean>
+	<bean id="authCfgDao" class="com.h3c.o2o.portal.auth.dao.AuthCfgDaoImpl">
+		<property name="sessionFactory" ref="portalSessionFactory"></property>
+	</bean>
+	<bean id="authCfgMgr" class="com.h3c.o2o.portal.auth.func.AuthCfgMgrImpl">
+		<property name="authCfgDao" ref="authCfgDao"></property>
+	</bean>
+	<bean id="userDao" class="com.h3c.o2o.portal.user.dao.RegistUserDaoImpl">
+		<property name="sessionFactory" ref="portalSessionFactory"></property>
+	</bean>
+	<bean id="userMgr" class="com.h3c.o2o.portal.user.func.RegistUserMgrImpl">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+	<bean id="portalUserAgentMgr" class="com.h3c.o2o.portal.useragent.func.UserAgentMgrImpl">
+		<property name="userAgentDao" ref="portalUserAgentDao"></property>
+	</bean>
+	<bean id="portalUserAgentDao" class="com.h3c.o2o.portal.useragent.dao.UserAgentDaoImpl">
+		<property name="sessionFactory" ref="portalSessionFactory"></property>
+	</bean>
+	<!-- 发布管理 -->
+	<bean id="publishMngMgr" class="com.h3c.o2o.portal.publishMng.func.PublishMngMgrImpl">
+		<property name="publishMngDao" ref="publishMngDao"></property>
+	</bean>
+	<bean id="publishMngDao" class="com.h3c.o2o.portal.publishMng.dao.PublishMngDaoImpl">
+		<property name="sessionFactory" ref="portalSessionFactory"></property>
+	</bean>
+	<!-- 发布管理参数 -->
+	<bean id="publishParaMgr" class="com.h3c.o2o.portal.publishMng.func.PublishParaMgrImpl">
+		<property name="publishParaDao" ref="publishParaDao"></property>
+	</bean>
+	<bean id="publishParaDao" class="com.h3c.o2o.portal.publishMng.dao.PublishParaDaoImpl">
+		<property name="sessionFactory" ref="portalSessionFactory"></property>
+	</bean>
+	<!-- 缓存数据接口 -->
+	<bean id="authCfgCacheMgr" class="com.h3c.o2o.portal.cache.authcfg.AuthCfgCacheMgrImpl">
+		<property name="authCfgMgr" ref="authCfgMgr"></property>
+	</bean>
+	<bean id="registUserCacheMgr" class="com.h3c.o2o.portal.cache.registuser.RegistUserCacheMgrImpl">
+		<property name="userMgr" ref="userMgr"></property>
+	</bean>
+	<bean id="themeTemplateCacheMgr" class="com.h3c.o2o.portal.cache.theme.ThemeTemplateCacheMgrImpl">
+		<property name="themePageMgr" ref="portalThemePageMgr"></property>
+	</bean>
+	<bean id="blackListCacheMgr" class="com.h3c.o2o.portal.cache.blacklist.BlackListCacheMgrImpl">
+		<property name="blackListMgr" ref="blackListMgr"></property>
+	</bean>
+	<bean id="onlineUserCacheMgr" class="com.h3c.o2o.portal.cache.onlineuser.OnlineUserCacheMgrImpl">
+		<property name="onlineUserMgr" ref="onlineUserMgr"></property>
+	</bean>
+	<bean id="publishMngCacheMgr" class="com.h3c.o2o.portal.cache.publish.PublishCacheMgrImpl">
+		<property name="publishMngMgr" ref="publishMngMgr"></property>
+	</bean>
+	<bean id="publishParaCacheMgr" class="com.h3c.o2o.portal.cache.publish.PublishParaCacheMgrImpl">
+		<property name="publishParaMgr" ref="publishParaMgr"></property>
+	</bean>
+	<bean id="cacheApiMgr" class="com.h3c.o2o.portal.cache.api.CacheApiMgrImpl"
+		init-method="init" destroy-method="destroy">
+		<property name="authCfgCacheMgr" ref="authCfgCacheMgr"></property>
+		<property name="registUserCacheMgr" ref="registUserCacheMgr"></property>
+		<property name="themeTemplateCacheMgr" ref="themeTemplateCacheMgr"></property>
+		<property name="blackListCacheMgr" ref="blackListCacheMgr"></property>
+		<property name="onlineUserCacheMgr" ref="onlineUserCacheMgr"></property>
+		<property name="publishMngCacheMgr" ref="publishMngCacheMgr"></property>
+		<property name="publishParaCacheMgr" ref="publishParaCacheMgr"></property>
+		<property name="themePageMgr" ref="portalThemePageMgr"></property>
+		<property name="onlineUserMgr" ref="onlineUserMgr"></property>
+		<property name="accessUserDetailMgr" ref="accessUserDetailMgr"></property>
+		<property name="interval" value="600"></property>
+		<property name="defaultInterval" value="180"></property>
+	</bean>
+
+	<!-- 消息通讯接口 -->
+	<bean id="messageMgr" class="com.h3c.o2o.portal.message.func.MessageMgrImpl">
+		<property name="tokenMgr" ref="tokenMgr"></property>
+        <property name="rabbitTemplate" ref="o2oportalRabbitTemplate"></property>
+		<property name="expireIn" value="60000" />
+	</bean>
+	<!-- 在线用户接口 -->
+	<bean id="onlineUserMgr" class="com.h3c.o2o.portal.user.func.OnlineUserMgrImpl">
+		<property name="onlineUserDao" ref="onlineUserDao"></property>
+	</bean>
+	<bean id="onlineUserDao" class="com.h3c.o2o.portal.user.dao.OnlineUserDaoImpl">
+		<property name="sessionFactory" ref="portalSessionFactory"></property>
+	</bean>
+	<!-- 接入用户接口 -->
+	<bean id="accessUserDetailMgr" class="com.h3c.o2o.portal.user.func.AccessUserDetailMgrImpl">
+		<property name="accessUserDetailDao" ref="accessUserDetailDao"></property>
+	</bean>
+	<bean id="accessUserDetailDao" class="com.h3c.o2o.portal.user.dao.AccessUserDetailDaoImpl">
+		<property name="sessionFactory" ref="portalSessionFactory"></property>
+	</bean>
+	<!-- 黑名单接口 -->
+	<bean id="blackListMgr" class="com.h3c.o2o.portal.blacklist.func.BlackListMgrImpl">
+		<property name="blackListDao" ref="blackListDao"></property>
+	</bean>
+	<bean id="blackListDao" class="com.h3c.o2o.portal.blacklist.dao.BlackListDaoImpl">
+		<property name="sessionFactory" ref="portalSessionFactory"></property>
+	</bean>
+	<!-- 第三方策略接口 -->
+	<bean id="strategyMgr" class="com.h3c.o2o.portal.rs.func.StrategyMgrImpl">
+		<property name="strategyDao" ref="strategyDao"></property>
+	</bean>
+	<bean id="strategyDao" class="com.h3c.o2o.portal.rs.dao.StrategyDaoImpl">
+		<property name="sessionFactory" ref="portalSessionFactory"></property>
+	</bean>
+	<!-- 第三方接口 -->
+	<bean id="thirdPartyAuthMgr" class="com.h3c.o2o.portal.rs.func.ThirdPartyAuthMgrImpl">
+		<property name="userMgr" ref="userMgr"></property>
+		<property name="onlineUserMgr" ref="onlineUserMgr"></property>
+		<property name="accessUserDetailMgr" ref="accessUserDetailMgr"></property>
+		<property name="messageMgr" ref="messageMgr"></property>
+		<property name="tokenMgr" ref="tokenMgr"></property>
+		<property name="cacheApiMgr" ref="cacheApiMgr"></property>
+ 		<property name="strategyMgr" ref="strategyMgr"></property>
+	</bean>
+	<!-- 业务功能控制 -->
+    <bean id="uamfunctionControlMgr" class="com.h3c.o2o.portal.functioncontrol.func.FunctionControlMgrImpl"
+  	  init-method="init">
+  	  <property name="QQAuthEnable" value="false"></property>
+    </bean>
+
+  <!-- ==================================================================== -->
+  <!--                        rabbitmq 配置                           -->
+  <!-- ==================================================================== -->
+  <rabbit:connection-factory id="o2oportalConnectionFactory" host="${rabbitmq.host}" username="${rabbitmq.username}"
+    password="${rabbitmq.password}" port="${rabbitmq.port}" channel-cache-size="${rabbitmq.channelcachesize}"/>
+
+  <rabbit:admin connection-factory="o2oportalConnectionFactory" />
+
+  <rabbit:template id="o2oportalRabbitTemplate" connection-factory="o2oportalConnectionFactory" reply-timeout = "${rabbitmq.reply.timeout}"/>
+
+  <!--发布模板消息 -->
+  <rabbit:queue name="o2ouam.queue.theme" durable="true" auto-delete="false" exclusive="false" />
+  <!--路由设置 将队列绑定，属于topic类型 -->
+  <rabbit:direct-exchange name="o2ouam.theme" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2ouam.queue.theme" key="theme.producer" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="o2oportalThemeListener" method="handleMessage" queue-names="o2ouam.queue.theme" />
+  </rabbit:listener-container>
+  <bean id="o2oportalThemeListener" class="com.h3c.o2o.portal.theme.func.ThemePageListener" />
+
+  <!--内存优化消息(认证配置) -->
+  <rabbit:queue name="o2ouam.queue.optimize.authcfg" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2ouam.optimize.authcfg" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2ouam.queue.optimize.authcfg" key="optimize.producer.authcfg" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="o2oportalOptAuthcfgListener" method="handleMessage" queue-names="o2ouam.queue.optimize.authcfg" />
+  </rabbit:listener-container>
+  <bean id="o2oportalOptAuthcfgListener" class="com.h3c.o2o.portal.auth.func.OptAuthcfgListener" >
+  	<property name="authCfgMgr" ref="authCfgMgr"></property>
+  	<property name="cacheApiMgr" ref="cacheApiMgr"></property>
+  </bean>
+
+  <!--内存优化消息(主题模板) -->
+  <rabbit:queue name="o2ouam.queue.optimize.theme" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2ouam.optimize.theme" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2ouam.queue.optimize.theme" key="optimize.producer.theme" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="o2oportalOptThemeListener" method="handleMessage" queue-names="o2ouam.queue.optimize.theme" />
+  </rabbit:listener-container>
+  <bean id="o2oportalOptThemeListener" class="com.h3c.o2o.portal.theme.func.OptThemeListener">
+  	<property name="themePageMgr" ref="portalThemePageMgr"></property>
+  	<property name="cacheApiMgr" ref="cacheApiMgr"></property>
+  </bean>
+
+  <!--内存优化消息(固定帐号) -->
+  <rabbit:queue name="o2ouam.queue.optimize.regaccount" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2ouam.optimize.regaccount" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2ouam.queue.optimize.regaccount" key="optimize.producer.regaccount" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="o2oportalOptRegaccountListener" method="handleMessage" queue-names="o2ouam.queue.optimize.regaccount" />
+  </rabbit:listener-container>
+  <bean id="o2oportalOptRegaccountListener" class="com.h3c.o2o.portal.user.func.OptRegaccountListener">
+  	<property name="userMgr" ref="userMgr"></property>
+  	<property name="cacheApiMgr" ref="cacheApiMgr"></property>
+  </bean>
+
+  <!--内存优化消息(黑名单) -->
+  <rabbit:queue name="o2ouam.queue.optimize.blacklist" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2ouam.optimize.blacklist" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2ouam.queue.optimize.blacklist" key="optimize.producer.blacklist" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="o2oportalOptBlackListListener" method="handleMessage" queue-names="o2ouam.queue.optimize.blacklist" />
+  </rabbit:listener-container>
+  <bean id="o2oportalOptBlackListListener" class="com.h3c.o2o.portal.blacklist.func.OptBlackListListener">
+  	<property name="blackListMgr" ref="blackListMgr"></property>
+  	<property name="cacheApiMgr" ref="cacheApiMgr"></property>
+  </bean>
+
+  <!--内存优化消息(发布管理) -->
+  <rabbit:queue name="optimize.producer.queue.publish" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2ouam.publish" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="optimize.producer.queue.publish" key="optimize.producer.publish" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="o2oportalOptPublishMngListener" method="handleMessage" queue-names="optimize.producer.queue.publish" />
+  </rabbit:listener-container>
+  <bean id="o2oportalOptPublishMngListener" class="com.h3c.o2o.portal.publishMng.func.OptPublishMngListener">
+  	<property name="publishMngMgr" ref="publishMngMgr"></property>
+  	<property name="cacheApiMgr" ref="cacheApiMgr"></property>
+  </bean>
+
+  <!--内存优化消息(发布管理参数) -->
+  <rabbit:queue name="optimize.producer.publish.param" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2ouam.publish" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="optimize.producer.publish.param" key="o2ouam.queue.optimize.publish.param" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="o2oportalOptPublishParaListener" method="handleMessage" queue-names="optimize.producer.publish.param" />
+  </rabbit:listener-container>
+  <bean id="o2oportalOptPublishParaListener" class="com.h3c.o2o.portal.publishMng.func.OptPublishParaListener">
+  	<property name="publishParaMgr" ref="publishParaMgr"></property>
+  	<property name="cacheApiMgr" ref="cacheApiMgr"></property>
+  </bean>
+
+  <!--发送短信 -->
+  <rabbit:queue name="o2oportal.queue.sendmessage" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2oportal.sendmessage" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2oportal.queue.sendmessage" key="o2oportal.sendmessage" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+
+ <!--ThirdPartyListener -->
+  <bean id="thirdPartyListener" class="com.h3c.o2o.portal.rs.func.ThirdPartyListener" >
+  	<property name="thirdPartyAuthMgr" ref="thirdPartyAuthMgr"/>
+  </bean>
+<!-- createUser -->
+  <rabbit:queue name="o2o.rest.uam.createuser" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.createuser" key="o2o.rest.key.uam.createuser" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="createUser" queue-names="o2o.rest.uam.createuser" />
+  </rabbit:listener-container>
+
+<!-- addToBlackList-->
+  <rabbit:queue name="o2o.rest.uam.addtoblack" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.addtoblack" key="o2o.rest.key.uam.addtoblack" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="addToBlackList" queue-names="o2o.rest.uam.addtoblack" />
+  </rabbit:listener-container>
+
+  <!-- 认证user -->
+  <rabbit:queue name="o2o.rest.uam.auth" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.auth" key="o2o.rest.key.uam.auth" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="authUser" queue-names="o2o.rest.uam.auth" />
+  </rabbit:listener-container>
+
+  <!-- 认证mac -->
+  <rabbit:queue name="o2o.rest.uam.authMac" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.authMac" key="o2o.rest.key.uam.authMac" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="authMac" queue-names="o2o.rest.uam.authMac" />
+  </rabbit:listener-container>
+
+  <!-- verifycode -->
+  <rabbit:queue name="o2o.rest.uam.verifycode" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.verifycode" key="o2o.rest.key.uam.verifycode" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="verifySmsCode" queue-names="o2o.rest.uam.verifycode" />
+  </rabbit:listener-container>
+
+ <!-- addtowhitelist -->
+  <rabbit:queue name="o2o.rest.uam.addtowhitelist" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.addtowhitelist" key="o2o.rest.key.uam.addtowhitelist" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="addToWhitelist" queue-names="o2o.rest.uam.addtowhitelist" />
+  </rabbit:listener-container>
+
+ <!-- removefromblacklist -->
+  <rabbit:queue name="o2o.rest.uam.removefromblacklist" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.removefromblacklist" key="o2o.rest.key.uam.removefromblacklist" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="removeFromBlacklist" queue-names="o2o.rest.uam.removefromblacklist" />
+  </rabbit:listener-container>
+
+   <!-- removefromwhitelist -->
+  <rabbit:queue name="o2o.rest.uam.removefromwhitelist" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.removefromwhitelist" key="o2o.rest.key.uam.removefromwhitelist" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="removeFromWhitelist" queue-names="o2o.rest.uam.removefromwhitelist" />
+  </rabbit:listener-container>
+
+  <!-- accessdetail -->
+  <rabbit:queue name="o2o.rest.uam.accessdetail" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.accessdetail" key="o2o.rest.key.uam.accessdetail" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="getAccessDetails" queue-names="o2o.rest.uam.accessdetail" />
+  </rabbit:listener-container>
+
+    <!-- smscode -->
+  <rabbit:queue name="o2o.rest.uam.smscode" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.smscode" key="o2o.rest.key.uam.smscode" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="getSmsCode" queue-names="o2o.rest.uam.smscode" />
+  </rabbit:listener-container>
+
+  <!-- loginout -->
+  <rabbit:queue name="o2o.rest.uam.loginout" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.loginout" key="o2o.rest.key.uam.loginout" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="loginout" queue-names="o2o.rest.uam.loginout" />
+  </rabbit:listener-container>
+
+  <!-- online -->
+  <rabbit:queue name="o2o.rest.uam.online" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.online" key="o2o.rest.key.uam.online" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="getOnlines" queue-names="o2o.rest.uam.online" />
+  </rabbit:listener-container>
+
+    <!-- modifyuser -->
+  <rabbit:queue name="o2o.rest.uam.modifyuser" durable="true" auto-delete="false" exclusive="false" />
+  <rabbit:direct-exchange name="o2o.rest.exchange" durable="true" auto-delete="false">
+    <rabbit:bindings>
+      <rabbit:binding queue="o2o.rest.uam.modifyuser" key="o2o.rest.key.uam.modifyuser" />
+    </rabbit:bindings>
+  </rabbit:direct-exchange>
+  <rabbit:listener-container connection-factory="o2oportalConnectionFactory">
+    <rabbit:listener ref="thirdPartyListener" method="modifyUser" queue-names="o2o.rest.uam.modifyuser" />
+  </rabbit:listener-container>
+
+</beans>

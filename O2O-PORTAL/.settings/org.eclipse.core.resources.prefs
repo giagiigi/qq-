@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//rssrc/com/h3c/o2o/rs/ThirdPartyAuthResource.java=GBK
+encoding//rssrc/com/h3c/o2o/rs/ext/ApplicationExceptionMapper.java=GBK
+encoding//src/com/h3c/o2o/portal=GBK
+encoding//src/com/h3c/o2o/portal/common/FuncUtil.java=GBK
+encoding//src/com/h3c/o2o/portal/protocol/func/ProtocolMgrImpl.java=GBK
+encoding//src/com/h3c/o2o/portal/rs/func/StrategyMgr.java=GBK
+encoding//test/com/h3c/o2o/portal/test/AllTests.java=GBK
+encoding//websrc/com/h3c/o2o/portal/servlet/LoginOutServlet.java=GBK
+encoding//websrc/com/h3c/o2o/portal/servlet/LoginServlet.java=GBK
+encoding//websrc/com/h3c/o2o/portal/servlet/UpdateUsernameServlet.java=GBK
+encoding/websrc=GBK

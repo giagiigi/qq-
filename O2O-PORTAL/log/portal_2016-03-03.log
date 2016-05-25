@@ -1,0 +1,475 @@
+2016-03-03 14:03:08 [INFO ] [main] [O2OServer::load] Start loading All Service...
+2016-03-03 14:03:08 [INFO ] [main] [AbstractApplicationContext::prepareRefresh] Refreshing com.h3c.oasis.o2oserver.bootstrap.c@6be46e8f: startup date [Thu Mar 03 14:03:08 CST 2016]; root of context hierarchy
+2016-03-03 14:03:10 [INFO ] [main] [AdaptableDataSource::afterPropertiesSet] Reconfigure AdaptableDataSource from server-addr.xml
+2016-03-03 14:03:10 [INFO ] [main] [AdaptableAnnotationSessionFactoryBean::afterPropertiesSet] Reset hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+2016-03-03 14:03:12 [INFO ] [main] [LocalSessionFactoryBean::buildSessionFactory] Building new Hibernate SessionFactory
+2016-03-03 14:03:16 [INFO ] [main] [AbstractApplicationContext::prepareRefresh] Refreshing com.h3c.oasis.o2oserver.bootstrap.g@467f77a5: startup date [Thu Mar 03 14:03:16 CST 2016]; root of context hierarchy
+2016-03-03 14:03:17 [INFO ] [main] [TomcatStartup::afterPropertiesSet] Starting Embedded Tomcat Server ...
+2016-03-03 14:03:19 [ERROR] [main] [AbstractProtocol::init] Failed to initialize end point associated with ProtocolHandler ["http-bio-443"]
+java.io.IOException: Keystore was tampered with, or password was incorrect
+	at sun.security.provider.JavaKeyStore.engineLoad(JavaKeyStore.java:780)
+	at sun.security.provider.JavaKeyStore$JKS.engineLoad(JavaKeyStore.java:56)
+	at sun.security.provider.KeyStoreDelegator.engineLoad(KeyStoreDelegator.java:225)
+	at sun.security.provider.JavaKeyStore$DualFormatJKS.engineLoad(JavaKeyStore.java:70)
+	at java.security.KeyStore.load(KeyStore.java:1445)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getStore(JSSESocketFactory.java:392)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeystore(JSSESocketFactory.java:291)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeyManagers(JSSESocketFactory.java:549)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeyManagers(JSSESocketFactory.java:489)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.init(JSSESocketFactory.java:434)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.createSocket(JSSESocketFactory.java:181)
+	at org.apache.tomcat.util.net.JIoEndpoint.bind(JIoEndpoint.java:393)
+	at org.apache.tomcat.util.net.AbstractEndpoint.init(AbstractEndpoint.java:610)
+	at org.apache.coyote.AbstractProtocol.init(AbstractProtocol.java:429)
+	at org.apache.coyote.http11.AbstractHttp11JsseProtocol.init(AbstractHttp11JsseProtocol.java:119)
+	at org.apache.catalina.connector.Connector.initInternal(Connector.java:981)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.core.StandardService.initInternal(StandardService.java:559)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.core.StandardServer.initInternal(StandardServer.java:814)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.startup.Catalina.load(Catalina.java:633)
+	at org.apache.catalina.startup.Catalina.start(Catalina.java:672)
+	at com.h3c.oasis.o2oserver.bootstrap.TomcatStartup.start(TomcatStartup.java:412)
+	at com.h3c.oasis.o2oserver.bootstrap.TomcatStartup.afterPropertiesSet(TomcatStartup.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1571)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:458)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:296)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:223)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:293)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:633)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:479)
+	at com.h3c.oasis.o2oserver.bootstrap.O2OServer.load(O2OServer.java:107)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at com.h3c.oasis.bootstrap.ServerStartup.h(ServerStartup.java:626)
+	at com.h3c.oasis.bootstrap.ServerStartup.f(ServerStartup.java:488)
+	at com.h3c.oasis.bootstrap.ServerStartup.process(ServerStartup.java:361)
+	at com.h3c.oasis.bootstrap.Bootstrap.a(Bootstrap.java:128)
+	at com.h3c.oasis.bootstrap.Bootstrap.main(Bootstrap.java:238)
+Caused by: java.security.UnrecoverableKeyException: Password verification failed
+	at sun.security.provider.JavaKeyStore.engineLoad(JavaKeyStore.java:778)
+	... 45 more
+2016-03-03 14:03:19 [ERROR] [main] [StandardService::initInternal] Failed to initialize connector [Connector[HTTP/1.1-443]]
+org.apache.catalina.LifecycleException: Failed to initialize component [Connector[HTTP/1.1-443]]
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:106)
+	at org.apache.catalina.core.StandardService.initInternal(StandardService.java:559)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.core.StandardServer.initInternal(StandardServer.java:814)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.startup.Catalina.load(Catalina.java:633)
+	at org.apache.catalina.startup.Catalina.start(Catalina.java:672)
+	at com.h3c.oasis.o2oserver.bootstrap.TomcatStartup.start(TomcatStartup.java:412)
+	at com.h3c.oasis.o2oserver.bootstrap.TomcatStartup.afterPropertiesSet(TomcatStartup.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1571)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:458)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:296)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:223)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:293)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:633)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:479)
+	at com.h3c.oasis.o2oserver.bootstrap.O2OServer.load(O2OServer.java:107)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at com.h3c.oasis.bootstrap.ServerStartup.h(ServerStartup.java:626)
+	at com.h3c.oasis.bootstrap.ServerStartup.f(ServerStartup.java:488)
+	at com.h3c.oasis.bootstrap.ServerStartup.process(ServerStartup.java:361)
+	at com.h3c.oasis.bootstrap.Bootstrap.a(Bootstrap.java:128)
+	at com.h3c.oasis.bootstrap.Bootstrap.main(Bootstrap.java:238)
+Caused by: org.apache.catalina.LifecycleException: Protocol handler initialization failed
+	at org.apache.catalina.connector.Connector.initInternal(Connector.java:983)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	... 29 more
+Caused by: java.io.IOException: Keystore was tampered with, or password was incorrect
+	at sun.security.provider.JavaKeyStore.engineLoad(JavaKeyStore.java:780)
+	at sun.security.provider.JavaKeyStore$JKS.engineLoad(JavaKeyStore.java:56)
+	at sun.security.provider.KeyStoreDelegator.engineLoad(KeyStoreDelegator.java:225)
+	at sun.security.provider.JavaKeyStore$DualFormatJKS.engineLoad(JavaKeyStore.java:70)
+	at java.security.KeyStore.load(KeyStore.java:1445)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getStore(JSSESocketFactory.java:392)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeystore(JSSESocketFactory.java:291)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeyManagers(JSSESocketFactory.java:549)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeyManagers(JSSESocketFactory.java:489)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.init(JSSESocketFactory.java:434)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.createSocket(JSSESocketFactory.java:181)
+	at org.apache.tomcat.util.net.JIoEndpoint.bind(JIoEndpoint.java:393)
+	at org.apache.tomcat.util.net.AbstractEndpoint.init(AbstractEndpoint.java:610)
+	at org.apache.coyote.AbstractProtocol.init(AbstractProtocol.java:429)
+	at org.apache.coyote.http11.AbstractHttp11JsseProtocol.init(AbstractHttp11JsseProtocol.java:119)
+	at org.apache.catalina.connector.Connector.initInternal(Connector.java:981)
+	... 30 more
+Caused by: java.security.UnrecoverableKeyException: Password verification failed
+	at sun.security.provider.JavaKeyStore.engineLoad(JavaKeyStore.java:778)
+	... 45 more
+2016-03-03 14:03:20 [INFO ] [main] [TomcatStartup::afterPropertiesSet] Starting Embedded Tomcat Server succeeded. ...
+2016-03-03 14:03:20 [INFO ] [main] [O2OServer::load] All Service loaded in 12294 ms.
+2016-03-03 14:20:11 [INFO ] [SimpleAsyncTaskExecutor-1] [ThemePageListener::handleMessage] call from foreground
+2016-03-03 14:20:11 [WARN ] [SimpleAsyncTaskExecutor-1] [ThemeTemplateCacheMgrImpl::get] there isn't Template wehre id = 1006 in the cache.
+2016-03-03 14:41:25 [INFO ] [SimpleAsyncTaskExecutor-1] [ThemePageListener::handleMessage] call from foreground
+2016-03-03 14:41:25 [WARN ] [SimpleAsyncTaskExecutor-1] [ThemeTemplateCacheMgrImpl::get] there isn't Template wehre id = 1008 in the cache.
+2016-03-03 14:51:38 [INFO ] [SimpleAsyncTaskExecutor-1] [ThemePageListener::handleMessage] call from foreground
+2016-03-03 14:51:38 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145433/images/alipay.png
+2016-03-03 14:51:38 [WARN ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] Http connection fail: http://172.27.12.68:80/o2o/uam/theme/20160303145433/images/alipay.png
+2016-03-03 14:51:39 [WARN ] [SimpleAsyncTaskExecutor-1] [ThemePageListener::handleMessage] 
+com.h3c.o2o.portal.PortalException[70003] 下载文件失败。
+	at com.h3c.o2o.portal.theme.func.ThemePageListener.handleMessage(ThemePageListener.java:121)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.util.MethodInvoker.invoke(MethodInvoker.java:269)
+	at org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter.invokeListenerMethod(MessageListenerAdapter.java:327)
+	at org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter.onMessage(MessageListenerAdapter.java:253)
+	at org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer.doInvokeListener(AbstractMessageListenerContainer.java:756)
+	at org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer.invokeListener(AbstractMessageListenerContainer.java:679)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer.access$001(SimpleMessageListenerContainer.java:82)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$1.invokeListener(SimpleMessageListenerContainer.java:167)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer.invokeListener(SimpleMessageListenerContainer.java:1241)
+	at org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer.executeListener(AbstractMessageListenerContainer.java:660)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer.doReceiveAndExecute(SimpleMessageListenerContainer.java:1005)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer.receiveAndExecute(SimpleMessageListenerContainer.java:989)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer.access$700(SimpleMessageListenerContainer.java:82)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$AsyncMessageProcessingConsumer.run(SimpleMessageListenerContainer.java:1103)
+	at java.lang.Thread.run(Thread.java:745)
+2016-03-03 14:59:12 [INFO ] [SimpleAsyncTaskExecutor-1] [ThemePageListener::handleMessage] call from foreground
+2016-03-03 14:59:12 [WARN ] [SimpleAsyncTaskExecutor-1] [ThemeTemplateCacheMgrImpl::get] there isn't Template wehre id = 1009 in the cache.
+2016-03-03 15:17:29 [INFO ] [SimpleAsyncTaskExecutor-1] [ThemePageListener::handleMessage] call from foreground
+2016-03-03 15:17:29 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/20160303151944.jpg
+2016-03-03 15:17:29 [WARN ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] Http connection fail: http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/20160303151944.jpg
+2016-03-03 15:17:29 [WARN ] [SimpleAsyncTaskExecutor-1] [ThemePageListener::handleMessage] 
+com.h3c.o2o.portal.PortalException[70003] 下载文件失败。
+	at com.h3c.o2o.portal.theme.func.ThemePageListener.handleMessage(ThemePageListener.java:121)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at org.springframework.util.MethodInvoker.invoke(MethodInvoker.java:269)
+	at org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter.invokeListenerMethod(MessageListenerAdapter.java:327)
+	at org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter.onMessage(MessageListenerAdapter.java:253)
+	at org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer.doInvokeListener(AbstractMessageListenerContainer.java:756)
+	at org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer.invokeListener(AbstractMessageListenerContainer.java:679)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer.access$001(SimpleMessageListenerContainer.java:82)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$1.invokeListener(SimpleMessageListenerContainer.java:167)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer.invokeListener(SimpleMessageListenerContainer.java:1241)
+	at org.springframework.amqp.rabbit.listener.AbstractMessageListenerContainer.executeListener(AbstractMessageListenerContainer.java:660)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer.doReceiveAndExecute(SimpleMessageListenerContainer.java:1005)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer.receiveAndExecute(SimpleMessageListenerContainer.java:989)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer.access$700(SimpleMessageListenerContainer.java:82)
+	at org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer$AsyncMessageProcessingConsumer.run(SimpleMessageListenerContainer.java:1103)
+	at java.lang.Thread.run(Thread.java:745)
+2016-03-03 15:22:59 [INFO ] [SimpleAsyncTaskExecutor-1] [ThemePageListener::handleMessage] call from foreground
+2016-03-03 15:22:59 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/20160303151944.jpg
+2016-03-03 15:22:59 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/alipay.png
+2016-03-03 15:22:59 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/bgImg.jpg
+2016-03-03 15:22:59 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/home.jpg
+2016-03-03 15:22:59 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/home2.jpg
+2016-03-03 15:22:59 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/loginSuccessBg.jpg
+2016-03-03 15:22:59 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/logo-inverted.jpg
+2016-03-03 15:22:59 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/net.png
+2016-03-03 15:22:59 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/qq.png
+2016-03-03 15:22:59 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/wifilogo.png
+2016-03-03 15:22:59 [INFO ] [SimpleAsyncTaskExecutor-1] [HttpDownload::downLoad] http://172.27.12.68:80/o2o/uam/theme/20160303145931/images/wxwifi.png
+2016-03-03 15:22:59 [WARN ] [SimpleAsyncTaskExecutor-1] [ThemeTemplateCacheMgrImpl::get] there isn't Template wehre id = 1011 in the cache.
+2016-03-03 15:27:54 [INFO ] [main] [O2OServer::load] Start loading All Service...
+2016-03-03 15:27:54 [INFO ] [main] [AbstractApplicationContext::prepareRefresh] Refreshing com.h3c.oasis.o2oserver.bootstrap.c@6295d394: startup date [Thu Mar 03 15:27:54 CST 2016]; root of context hierarchy
+2016-03-03 15:27:57 [INFO ] [main] [AdaptableDataSource::afterPropertiesSet] Reconfigure AdaptableDataSource from server-addr.xml
+2016-03-03 15:27:57 [INFO ] [main] [AdaptableAnnotationSessionFactoryBean::afterPropertiesSet] Reset hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+2016-03-03 15:27:58 [INFO ] [main] [LocalSessionFactoryBean::buildSessionFactory] Building new Hibernate SessionFactory
+2016-03-03 15:28:04 [INFO ] [main] [AbstractApplicationContext::prepareRefresh] Refreshing com.h3c.oasis.o2oserver.bootstrap.g@3ba46e63: startup date [Thu Mar 03 15:28:04 CST 2016]; root of context hierarchy
+2016-03-03 15:28:04 [INFO ] [main] [TomcatStartup::afterPropertiesSet] Starting Embedded Tomcat Server ...
+2016-03-03 15:28:06 [ERROR] [main] [AbstractProtocol::init] Failed to initialize end point associated with ProtocolHandler ["http-bio-443"]
+java.io.IOException: Keystore was tampered with, or password was incorrect
+	at sun.security.provider.JavaKeyStore.engineLoad(JavaKeyStore.java:780)
+	at sun.security.provider.JavaKeyStore$JKS.engineLoad(JavaKeyStore.java:56)
+	at sun.security.provider.KeyStoreDelegator.engineLoad(KeyStoreDelegator.java:225)
+	at sun.security.provider.JavaKeyStore$DualFormatJKS.engineLoad(JavaKeyStore.java:70)
+	at java.security.KeyStore.load(KeyStore.java:1445)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getStore(JSSESocketFactory.java:392)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeystore(JSSESocketFactory.java:291)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeyManagers(JSSESocketFactory.java:549)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeyManagers(JSSESocketFactory.java:489)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.init(JSSESocketFactory.java:434)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.createSocket(JSSESocketFactory.java:181)
+	at org.apache.tomcat.util.net.JIoEndpoint.bind(JIoEndpoint.java:393)
+	at org.apache.tomcat.util.net.AbstractEndpoint.init(AbstractEndpoint.java:610)
+	at org.apache.coyote.AbstractProtocol.init(AbstractProtocol.java:429)
+	at org.apache.coyote.http11.AbstractHttp11JsseProtocol.init(AbstractHttp11JsseProtocol.java:119)
+	at org.apache.catalina.connector.Connector.initInternal(Connector.java:981)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.core.StandardService.initInternal(StandardService.java:559)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.core.StandardServer.initInternal(StandardServer.java:814)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.startup.Catalina.load(Catalina.java:633)
+	at org.apache.catalina.startup.Catalina.start(Catalina.java:672)
+	at com.h3c.oasis.o2oserver.bootstrap.TomcatStartup.start(TomcatStartup.java:412)
+	at com.h3c.oasis.o2oserver.bootstrap.TomcatStartup.afterPropertiesSet(TomcatStartup.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1571)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:458)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:296)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:223)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:293)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:633)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:479)
+	at com.h3c.oasis.o2oserver.bootstrap.O2OServer.load(O2OServer.java:107)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at com.h3c.oasis.bootstrap.ServerStartup.h(ServerStartup.java:626)
+	at com.h3c.oasis.bootstrap.ServerStartup.f(ServerStartup.java:488)
+	at com.h3c.oasis.bootstrap.ServerStartup.process(ServerStartup.java:361)
+	at com.h3c.oasis.bootstrap.Bootstrap.a(Bootstrap.java:128)
+	at com.h3c.oasis.bootstrap.Bootstrap.main(Bootstrap.java:238)
+Caused by: java.security.UnrecoverableKeyException: Password verification failed
+	at sun.security.provider.JavaKeyStore.engineLoad(JavaKeyStore.java:778)
+	... 45 more
+2016-03-03 15:28:06 [ERROR] [main] [StandardService::initInternal] Failed to initialize connector [Connector[HTTP/1.1-443]]
+org.apache.catalina.LifecycleException: Failed to initialize component [Connector[HTTP/1.1-443]]
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:106)
+	at org.apache.catalina.core.StandardService.initInternal(StandardService.java:559)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.core.StandardServer.initInternal(StandardServer.java:814)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.startup.Catalina.load(Catalina.java:633)
+	at org.apache.catalina.startup.Catalina.start(Catalina.java:672)
+	at com.h3c.oasis.o2oserver.bootstrap.TomcatStartup.start(TomcatStartup.java:412)
+	at com.h3c.oasis.o2oserver.bootstrap.TomcatStartup.afterPropertiesSet(TomcatStartup.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1571)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:458)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:296)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:223)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:293)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:633)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:479)
+	at com.h3c.oasis.o2oserver.bootstrap.O2OServer.load(O2OServer.java:107)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at com.h3c.oasis.bootstrap.ServerStartup.h(ServerStartup.java:626)
+	at com.h3c.oasis.bootstrap.ServerStartup.f(ServerStartup.java:488)
+	at com.h3c.oasis.bootstrap.ServerStartup.process(ServerStartup.java:361)
+	at com.h3c.oasis.bootstrap.Bootstrap.a(Bootstrap.java:128)
+	at com.h3c.oasis.bootstrap.Bootstrap.main(Bootstrap.java:238)
+Caused by: org.apache.catalina.LifecycleException: Protocol handler initialization failed
+	at org.apache.catalina.connector.Connector.initInternal(Connector.java:983)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	... 29 more
+Caused by: java.io.IOException: Keystore was tampered with, or password was incorrect
+	at sun.security.provider.JavaKeyStore.engineLoad(JavaKeyStore.java:780)
+	at sun.security.provider.JavaKeyStore$JKS.engineLoad(JavaKeyStore.java:56)
+	at sun.security.provider.KeyStoreDelegator.engineLoad(KeyStoreDelegator.java:225)
+	at sun.security.provider.JavaKeyStore$DualFormatJKS.engineLoad(JavaKeyStore.java:70)
+	at java.security.KeyStore.load(KeyStore.java:1445)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getStore(JSSESocketFactory.java:392)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeystore(JSSESocketFactory.java:291)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeyManagers(JSSESocketFactory.java:549)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeyManagers(JSSESocketFactory.java:489)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.init(JSSESocketFactory.java:434)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.createSocket(JSSESocketFactory.java:181)
+	at org.apache.tomcat.util.net.JIoEndpoint.bind(JIoEndpoint.java:393)
+	at org.apache.tomcat.util.net.AbstractEndpoint.init(AbstractEndpoint.java:610)
+	at org.apache.coyote.AbstractProtocol.init(AbstractProtocol.java:429)
+	at org.apache.coyote.http11.AbstractHttp11JsseProtocol.init(AbstractHttp11JsseProtocol.java:119)
+	at org.apache.catalina.connector.Connector.initInternal(Connector.java:981)
+	... 30 more
+Caused by: java.security.UnrecoverableKeyException: Password verification failed
+	at sun.security.provider.JavaKeyStore.engineLoad(JavaKeyStore.java:778)
+	... 45 more
+2016-03-03 15:28:08 [INFO ] [main] [TomcatStartup::afterPropertiesSet] Starting Embedded Tomcat Server succeeded. ...
+2016-03-03 15:28:08 [INFO ] [main] [O2OServer::load] All Service loaded in 14080 ms.
+2016-03-03 15:32:20 [INFO ] [main] [O2OServer::load] Start loading All Service...
+2016-03-03 15:32:20 [INFO ] [main] [AbstractApplicationContext::prepareRefresh] Refreshing com.h3c.oasis.o2oserver.bootstrap.c@6295d394: startup date [Thu Mar 03 15:32:20 CST 2016]; root of context hierarchy
+2016-03-03 15:32:22 [INFO ] [main] [AdaptableDataSource::afterPropertiesSet] Reconfigure AdaptableDataSource from server-addr.xml
+2016-03-03 15:32:22 [INFO ] [main] [AdaptableAnnotationSessionFactoryBean::afterPropertiesSet] Reset hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+2016-03-03 15:32:24 [INFO ] [main] [LocalSessionFactoryBean::buildSessionFactory] Building new Hibernate SessionFactory
+2016-03-03 15:32:29 [INFO ] [main] [AbstractApplicationContext::prepareRefresh] Refreshing com.h3c.oasis.o2oserver.bootstrap.g@3ba46e63: startup date [Thu Mar 03 15:32:29 CST 2016]; root of context hierarchy
+2016-03-03 15:32:29 [INFO ] [main] [TomcatStartup::afterPropertiesSet] Starting Embedded Tomcat Server ...
+2016-03-03 15:32:31 [ERROR] [main] [AbstractProtocol::init] Failed to initialize end point associated with ProtocolHandler ["http-bio-443"]
+java.io.IOException: Keystore was tampered with, or password was incorrect
+	at sun.security.provider.JavaKeyStore.engineLoad(JavaKeyStore.java:780)
+	at sun.security.provider.JavaKeyStore$JKS.engineLoad(JavaKeyStore.java:56)
+	at sun.security.provider.KeyStoreDelegator.engineLoad(KeyStoreDelegator.java:225)
+	at sun.security.provider.JavaKeyStore$DualFormatJKS.engineLoad(JavaKeyStore.java:70)
+	at java.security.KeyStore.load(KeyStore.java:1445)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getStore(JSSESocketFactory.java:392)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeystore(JSSESocketFactory.java:291)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeyManagers(JSSESocketFactory.java:549)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeyManagers(JSSESocketFactory.java:489)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.init(JSSESocketFactory.java:434)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.createSocket(JSSESocketFactory.java:181)
+	at org.apache.tomcat.util.net.JIoEndpoint.bind(JIoEndpoint.java:393)
+	at org.apache.tomcat.util.net.AbstractEndpoint.init(AbstractEndpoint.java:610)
+	at org.apache.coyote.AbstractProtocol.init(AbstractProtocol.java:429)
+	at org.apache.coyote.http11.AbstractHttp11JsseProtocol.init(AbstractHttp11JsseProtocol.java:119)
+	at org.apache.catalina.connector.Connector.initInternal(Connector.java:981)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.core.StandardService.initInternal(StandardService.java:559)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.core.StandardServer.initInternal(StandardServer.java:814)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.startup.Catalina.load(Catalina.java:633)
+	at org.apache.catalina.startup.Catalina.start(Catalina.java:672)
+	at com.h3c.oasis.o2oserver.bootstrap.TomcatStartup.start(TomcatStartup.java:412)
+	at com.h3c.oasis.o2oserver.bootstrap.TomcatStartup.afterPropertiesSet(TomcatStartup.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1571)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:458)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:296)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:223)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:293)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:633)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:479)
+	at com.h3c.oasis.o2oserver.bootstrap.O2OServer.load(O2OServer.java:107)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at com.h3c.oasis.bootstrap.ServerStartup.h(ServerStartup.java:626)
+	at com.h3c.oasis.bootstrap.ServerStartup.f(ServerStartup.java:488)
+	at com.h3c.oasis.bootstrap.ServerStartup.process(ServerStartup.java:361)
+	at com.h3c.oasis.bootstrap.Bootstrap.a(Bootstrap.java:128)
+	at com.h3c.oasis.bootstrap.Bootstrap.main(Bootstrap.java:238)
+Caused by: java.security.UnrecoverableKeyException: Password verification failed
+	at sun.security.provider.JavaKeyStore.engineLoad(JavaKeyStore.java:778)
+	... 45 more
+2016-03-03 15:32:31 [ERROR] [main] [StandardService::initInternal] Failed to initialize connector [Connector[HTTP/1.1-443]]
+org.apache.catalina.LifecycleException: Failed to initialize component [Connector[HTTP/1.1-443]]
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:106)
+	at org.apache.catalina.core.StandardService.initInternal(StandardService.java:559)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.core.StandardServer.initInternal(StandardServer.java:814)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	at org.apache.catalina.startup.Catalina.load(Catalina.java:633)
+	at org.apache.catalina.startup.Catalina.start(Catalina.java:672)
+	at com.h3c.oasis.o2oserver.bootstrap.TomcatStartup.start(TomcatStartup.java:412)
+	at com.h3c.oasis.o2oserver.bootstrap.TomcatStartup.afterPropertiesSet(TomcatStartup.java:87)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1571)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1509)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:458)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:296)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:223)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:293)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:633)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:479)
+	at com.h3c.oasis.o2oserver.bootstrap.O2OServer.load(O2OServer.java:107)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at com.h3c.oasis.bootstrap.ServerStartup.h(ServerStartup.java:626)
+	at com.h3c.oasis.bootstrap.ServerStartup.f(ServerStartup.java:488)
+	at com.h3c.oasis.bootstrap.ServerStartup.process(ServerStartup.java:361)
+	at com.h3c.oasis.bootstrap.Bootstrap.a(Bootstrap.java:128)
+	at com.h3c.oasis.bootstrap.Bootstrap.main(Bootstrap.java:238)
+Caused by: org.apache.catalina.LifecycleException: Protocol handler initialization failed
+	at org.apache.catalina.connector.Connector.initInternal(Connector.java:983)
+	at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
+	... 29 more
+Caused by: java.io.IOException: Keystore was tampered with, or password was incorrect
+	at sun.security.provider.JavaKeyStore.engineLoad(JavaKeyStore.java:780)
+	at sun.security.provider.JavaKeyStore$JKS.engineLoad(JavaKeyStore.java:56)
+	at sun.security.provider.KeyStoreDelegator.engineLoad(KeyStoreDelegator.java:225)
+	at sun.security.provider.JavaKeyStore$DualFormatJKS.engineLoad(JavaKeyStore.java:70)
+	at java.security.KeyStore.load(KeyStore.java:1445)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getStore(JSSESocketFactory.java:392)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeystore(JSSESocketFactory.java:291)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeyManagers(JSSESocketFactory.java:549)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.getKeyManagers(JSSESocketFactory.java:489)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.init(JSSESocketFactory.java:434)
+	at org.apache.tomcat.util.net.jsse.JSSESocketFactory.createSocket(JSSESocketFactory.java:181)
+	at org.apache.tomcat.util.net.JIoEndpoint.bind(JIoEndpoint.java:393)
+	at org.apache.tomcat.util.net.AbstractEndpoint.init(AbstractEndpoint.java:610)
+	at org.apache.coyote.AbstractProtocol.init(AbstractProtocol.java:429)
+	at org.apache.coyote.http11.AbstractHttp11JsseProtocol.init(AbstractHttp11JsseProtocol.java:119)
+	at org.apache.catalina.connector.Connector.initInternal(Connector.java:981)
+	... 30 more
+Caused by: java.security.UnrecoverableKeyException: Password verification failed
+	at sun.security.provider.JavaKeyStore.engineLoad(JavaKeyStore.java:778)
+	... 45 more
+2016-03-03 15:32:33 [INFO ] [main] [TomcatStartup::afterPropertiesSet] Starting Embedded Tomcat Server succeeded. ...
+2016-03-03 15:32:33 [INFO ] [main] [O2OServer::load] All Service loaded in 13368 ms.
+2016-03-03 15:58:20 [WARN ] [http-bio-80-exec-24] [QqAfterLoginServlet::doPost] qq innernet error.
+2016-03-03 15:58:39 [WARN ] [http-bio-80-exec-24] [QqAfterLoginServlet::doPost] qq innernet error.
+2016-03-03 15:58:43 [WARN ] [http-bio-80-exec-24] [QqAfterLoginServlet::doPost] 
+com.qq.connect.QQConnectException: you pass a null String object
+	at com.h3c.o2o.portal.qq.QqOauth.extractionAuthCodeFromUrl(QqOauth.java:51)
+	at com.h3c.o2o.portal.servlet.QqAfterLoginServlet.doPost(QqAfterLoginServlet.java:94)
+	at com.h3c.o2o.portal.servlet.QqAfterLoginServlet.doGet(QqAfterLoginServlet.java:74)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:621)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:728)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:305)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:88)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:106)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:472)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:99)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1009)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:589)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:312)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+2016-03-03 15:58:48 [WARN ] [http-bio-80-exec-24] [QqAfterLoginServlet::doPost] 
+com.qq.connect.QQConnectException: you pass a null String object
+	at com.h3c.o2o.portal.qq.QqOauth.extractionAuthCodeFromUrl(QqOauth.java:51)
+	at com.h3c.o2o.portal.servlet.QqAfterLoginServlet.doPost(QqAfterLoginServlet.java:94)
+	at com.h3c.o2o.portal.servlet.QqAfterLoginServlet.doGet(QqAfterLoginServlet.java:74)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:621)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:728)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:305)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:88)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:106)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:243)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:472)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:99)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1009)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:589)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:312)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+2016-03-03 16:00:52 [WARN ] [http-bio-80-exec-21] [QqAfterLoginServlet::doPost] qq innernet error.
+2016-03-03 16:02:22 [WARN ] [http-bio-80-exec-21] [QqAfterLoginServlet::doPost] qq innernet error.
+2016-03-03 16:02:36 [WARN ] [http-bio-80-exec-3] [QqAfterLoginServlet::doPost] qq innernet error.

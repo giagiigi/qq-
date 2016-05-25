@@ -1,0 +1,128 @@
+img {
+  position: relative;
+}
+
+input[type="date"] {
+  display: inline-block;
+  padding: 4px;
+  font-size: 13px;
+  line-height: 18px;
+  color: #808080;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+div.setting-container {
+  margin-right: 30px;
+  float: right
+}
+
+div.canvas-widgets {
+  width: 29%;
+  min-width: 320px;
+  min-height: 480px;
+  margin-left: 50px;
+  margin-top: 30px;
+  height: 560px;
+  background-color: #070B0E;
+  padding: 15px;
+  position: absolute;
+  border: 0px solid #eee;
+  box-shadow: 1px 0 10px 1px rgba(0, 0, 0, .3);
+  border-radius: 20px;
+  float: left;
+}
+
+div.canvas-tools {
+  width: 50%;
+  margin-top: 30px;
+  float: right;
+  min-width: 320px;
+  min-height: 480px;
+  height: 100%;
+  min-width: 320px;
+}
+
+div.widget-content {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: #FFFFFF;
+}
+
+div.widget-text {
+  margin: 20px;
+  position: absolute;
+  border: 0px solid #eee;
+}
+
+div.widget-header {
+  position: relative;
+  min-height: 35px;
+  min-width: 560px;
+  width: 560px;
+  background: #0F0F0F;
+  color: white;
+}
+
+.canvas-widget-editor {
+  min-width: 560px;
+  min-height: 380px;
+  width: 560px;
+}
+
+.canvas-selected-border {
+  border: 2px dashed red;
+}
+
+.canvas-toolbar-div {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: white;
+  background-color: black;
+  z-index: 1000;
+  margin-top: -5px;
+  margin-right: -5px;
+  -moz-border-radius: 5px; /* Gecko browsers */
+  -webkit-border-radius: 5px; /* Webkit browsers */
+  border-radius:5px; /* W3C syntax */
+}
+
+.canvas-toolbar-span {
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* upload image */
+.canvas-imgcontent-left {
+  width: 100px;
+  display: inline-block;
+  border: 1px solid;
+  box-sizing: content-box;
+}
+
+.canvas-imgcontent-right {
+  width: 420px;
+  display: inline-block;
+  margin-left: 5px;
+  margin-top: 10px;
+}
+
+.canvas-imgdel-link {
+  display: inline-block;
+}
+
+.canvas-text-35 {
+  width: 30%;
+}
+
+.canvas-text-5 {
+  width: 5%;
+}
+
+.canvas-text-80 {
+  width: 70%;
+}

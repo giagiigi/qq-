@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+	
+	<!-- 缓存刷新定时任务配置 -->
+    <bean id="cacheCleanTask" class="com.h3c.o2o.portal.cache.update.CacheCleanTask">
+    	<property name="cacheMgrs">
+    		<list>
+    			<ref bean="authCfgCacheMgr" />
+    			<ref bean="registUserCacheMgr" />
+    			<ref bean="themeTemplateCacheMgr" />
+    			<ref bean="blackListCacheMgr" />
+    			<ref bean="onlineUserCacheMgr" />
+    			<ref bean="publishMngCacheMgr" />
+    			<ref bean="publishParaCacheMgr" />
+    		</list>
+    	</property>
+    </bean>
+    <!-- 从进程启动5分钟后，每30min执行一次： cron="0 5/30 * * * ?" -->
+    <task:scheduled-tasks>   
+        <task:scheduled ref="cacheCleanTask" method="update" cron="0 5/30 * * * ?"/>   
+	</task:scheduled-tasks> 
+
+</beans>

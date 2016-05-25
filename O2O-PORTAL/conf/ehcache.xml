@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false"
+	monitoring="autodetect" dynamicConfig="true">
+	<diskStore path="java.io.tmpdir" />
+	<!-- 缺省缓存，全部使用内存。 1、内存上限128M。 2、5分钟未访问则从内存移除。 3、LRU -->
+	<defaultCache maxBytesLocalHeap="128M" eternal="false"
+		timeToIdleSeconds="300" timeToLiveSeconds="0"
+		memoryStoreEvictionPolicy="LRU" />
+
+	<!-- 下发的命令缓存 1、服务器数量有限，目前上限为20000. 2、5分钟老化。 -->
+	<cache name="commandCache" maxEntriesLocalHeap="20000"
+		timeToLiveSeconds="0" timeToIdleSeconds="300" />
+
+    <!-- 命令和设备关系缓存 -->
+    <cache name="deviceCache" maxEntriesLocalHeap="20000"
+		timeToLiveSeconds="0" timeToIdleSeconds="300" />
+
+    <!-- profile内容缓存 -->
+    <cache name="profileCache" maxEntriesLocalHeap="20000"
+		timeToLiveSeconds="0" timeToIdleSeconds="300" />
+
+</ehcache>

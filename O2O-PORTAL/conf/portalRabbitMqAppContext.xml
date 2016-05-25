@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/rabbit 
+	http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- ============================== rabbitMQ Json串交互接口 ============================== -->
+	<rabbit:queue name="o2ouam.queue.o2oPortal.jsonmsg" durable="true"
+		auto-delete="false" exclusive="false" />
+	<rabbit:direct-exchange name="o2ouam.o2oPortal.jsonmsg"
+		durable="true" auto-delete="false">
+		<rabbit:bindings>
+			<rabbit:binding queue="o2ouam.queue.o2oPortal.jsonmsg"
+				key="optimize.producer.o2oPortal.jsonmsg" />
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+	
+	<!-- ==============================JSON交互handlers ==============================-->
+	<bean id="loginVerifyRedirectHandler" class="com.h3c.o2o.portal.rabbitmq.handler.LoginVerifyRedirectHandler">
+	</bean>
+	<bean id="onlineUserHandler" class="com.h3c.o2o.portal.rabbitmq.handler.OnlineUserHandler">
+	</bean>
+	
+	<!-- ==============================Dispatcher============================== -->
+	<bean id="msgDispatcher4JsonMsg" class="com.h3c.o2o.portal.rabbitmq.msg.MsgDispatcher4JsonMsg">
+		<property name="handlers">
+			<list>
+				<ref bean="loginVerifyRedirectHandler"/>
+				<ref bean="onlineUserHandler"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- ==============================Listener============================== -->
+	<bean id="o2oPortalListener4JsonMsg" class="com.h3c.o2o.portal.rabbitmq.listener.WxWifiListener4JsonMsg">
+		<property name="dispatcher" ref="msgDispatcher4JsonMsg"></property>
+	</bean>
+	
+	<!-- ============================== RabbitMQ Consumer ==============================-->
+	<rabbit:listener-container
+		connection-factory="o2oportalConnectionFactory">
+		<rabbit:listener ref="o2oPortalListener4JsonMsg" method="handleMessage"
+			queue-names="o2ouam.queue.o2oPortal.jsonmsg" />
+	</rabbit:listener-container>
+
+</beans>

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="GBK" standalone="yes"?>
+<project name="O2O-PORTAL" default="info" basedir="../">
+	<!-- system properties -->
+	<property file="make/config.properties" description="默认的属性配置" />
+
+	<!-- class path for building the project -->
+	<path id="build.class.path" description="工程使用的环境">
+		
+		<fileset dir="${weblib}">
+			<include name="*.jar"/>
+			<include name="*.zip"/>
+			<include name="**/*.jar"/>
+		</fileset>
+
+		<fileset dir="${repository}/">
+			<include name="*.jar" />
+			<include name="*.zip" />
+			<include name="**/*.jar" />
+			<include name="**/**/*.jar" />
+		</fileset>
+
+		<fileset dir="${devlib}/">
+			<include name="*.jar" />
+			<include name="*.zip" />
+		</fileset>
+		
+		<fileset dir="${tmplib}/">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- info -->
+	<target name="info" description="info信息">
+		<echo message="O2O-PORTAL Project..." />
+	</target>
+
+	<target name="build-clean">
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+
+	<!-- target: prepare 编译准备工作 -->
+	<target name="build-prepare" description="创建build和dist目录">
+		<mkdir dir="${build}" />
+		<mkdir dir="${dist}/tmp" />
+
+		<delete dir="${make}/sdk/baseserver" />
+		<unzip src="${make}/sdk/o2o_web_server.zip" dest="${make}/sdk/baseserver" />
+		<copy todir="${rootdir}">
+			<fileset dir="${make}/sdk/baseserver">
+				<include name="repository/**/*" />
+				<include name="bin/**/*" />
+				<include name="security/**/*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- 版本编译入口  -->
+	<target name="00CMO-BuildRelease">
+		<antcall target="build-clean" />
+		<antcall target="build-prepare" />
+<!-- 		<antcall target="asn-makeAsnJar" /> -->
+		<antcall target="jar-makeSrcJar" />
+		<antcall target="jar-maksWebSrcJar" />
+		<antcall target="jar-makeRssrcJar" />
+		<antcall target="build-copyFiles" />
+		<antcall target="build-zipServer" />
+	</target>
+
+
+	<!-- 编译src -->
+	<target name="jar-compileSrc" description="编译src下的java代码">
+		<delete dir="${srcclasses}" />
+		<mkdir dir="${srcclasses}" />
+		<javac destdir="${srcclasses}" target="1.8" source="1.8" includeantruntime="false"
+			   debug="${debugsw}" optimize="${optsw}" verbose="no" deprecation="${depsw}" encoding="GBK">
+			<src path="${src}" />
+			<classpath refid="build.class.path" />
+		</javac>
+		<copy todir="${srcclasses}/com/h3c/o2o">
+			<fileset dir="${src}/com/h3c/o2o">
+				<include name="*.properties" />
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+		<copy todir="${srcclasses}">
+			<fileset dir="${src}">
+				<include name="*.properties" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- 打包jar -->
+	<target name="jar-makeSrcJar" depends="jar-compileSrc" description="生成jar">
+		<!-- emo_server.jar -->
+		<mkdir dir="${dist}/repository/o2o/jars" />
+		<jar jarfile="${dist}/repository/o2o/jars/o2oportal_server.jar">
+			<fileset dir="${srcclasses}" includes="**/*" />
+		</jar>
+	</target>
+	
+	<!-- 编译websrc -->
+	<target name="jar-maksWebSrcJar" description="编译webSrc下的java代码">
+		<delete dir="${webclasses}" />
+		<mkdir dir="${webclasses}" />
+		<javac destdir="${webclasses}" target="1.6" source="1.6" debug="${debugsw}" optimize="${optsw}" verbose="no" deprecation="${depsw}" encoding="GBK">
+			<src path="${websrc}" />
+			<classpath>
+				<fileset dir="${repository}">
+					<include name="**/jars/*.jar"/>
+					<include name="**/jars/*.zip"/>
+				</fileset>
+				<fileset dir="${dist}">
+					<include name="**/jars/*.jar"/>
+					<include name="**/jars/*.zip"/>
+				</fileset>
+				<fileset dir="${weblib}">
+					<include name="*.jar"/>
+					<include name="*.zip"/>
+				</fileset>
+		   </classpath>
+		</javac>
+		<mkdir dir="${dist}/web/apps/portal/WEB-INF/lib/"/>
+		<jar destfile="${dist}/web/apps/portal/WEB-INF/lib/o2oportal_server_websrc.jar">
+			<manifest>
+				<attribute name="Version" value="${app.version}"/>
+				<attribute name="Company" value="${app.company}"/>
+				<attribute name="Built-By" value="${app.author}"/>
+			</manifest>
+			<fileset dir="${webclasses}" includes="**/*" />
+		</jar>
+	</target>
+	
+
+	<!-- 编译rssrc -->
+	<target name="jar-compileRssrc" description="编译src下的java代码">
+		<delete dir="${rssrcclasses}" />
+		<mkdir dir="${rssrcclasses}" />
+		<javac destdir="${rssrcclasses}" target="1.6" source="1.6" debug="${debugsw}" optimize="${optsw}" verbose="no" deprecation="${depsw}" encoding="GBK">
+			<src path="${rssrc}" />
+			<classpath>
+				<fileset dir="${repository}">
+					<include name="**/jars/*.jar"/>
+					<include name="**/jars/*.zip"/>
+				</fileset>
+				<fileset dir="${dist}">
+					<include name="**/jars/*.jar"/>
+					<include name="**/jars/*.zip"/>
+				</fileset>
+				<fileset dir="${weblib}">
+					<include name="*.jar"/>
+					<include name="*.zip"/>
+				</fileset>
+		   </classpath>
+		</javac>
+		<copy todir="${rssrcclasses}/com/h3c/o2o/rs">
+			<fileset dir="${rssrc}/com/h3c/o2o/rs">
+				<include name="*.properties" />
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- 打包rsjar -->
+	<target name="jar-makeRssrcJar" depends="jar-compileRssrc" description="生成jar">
+		<mkdir dir="${dist}/repository/o2o/jars" />
+		<jar jarfile="${dist}/repository/o2o/jars/o2oportal_rs.jar">
+			<fileset dir="${rssrcclasses}" includes="**/*" />
+		</jar>
+	</target>
+
+	<target name="build-copyFiles">
+		<!-- copy jar file -->
+		<copy todir="${dist}/repository" overwrite="true">
+			<fileset dir="${repository}">
+				<include name="**/*" />
+				<exclude name="**/*.bak" />
+			</fileset>
+		</copy>
+		
+		<copy todir="${dist}/repository/o2o/jars" overwrite="true">
+			<fileset dir="${tmplib}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+		<!-- copy security file    -->
+		<copy todir="${dist}/security" overwrite="true">
+			<fileset dir="${rootdir}/security">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<!-- copy bin config file    -->
+		<copy todir="${dist}/bin" overwrite="true">
+			<fileset dir="${rootdir}/bin">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<!-- copy Conf config file   -->
+		<copy todir="${dist}/conf" overwrite="true">
+			<fileset dir="${rootdir}/conf">
+				<include name="applicationContext.xml" />
+				<include name="context.xml" />
+				<include name="server.xml" />
+				<include name="web.xml" />
+				<include name="log4j.properties" />
+				<include name="rabbitmq.properties" />
+				<include name="http.properties" />
+				<include name="o2oPortalAppContext.xml" />
+				<include name="ehcache.xml" />
+				<include name="portalCacheAppContext.xml" />
+				<include name="portalRabbitMqAppContext.xml" />
+			</fileset>
+		</copy>
+
+		<!-- copy web file -->
+		<copy todir="${dist}/web" overwrite="true">
+			<fileset dir="${rootdir}/web">
+				<include name="apps/**/*" />
+				<exclude name="apps/portal/WEB-INF/classes"/>
+				<exclude name="apps/portal/WEB-INF/classes/**/*"/>
+			</fileset>
+		</copy>
+	</target>
+
+
+	<target name="build-zipServer">
+		<!-- zip common server -->
+		<delete file="${dist}/server_o2oportal.zip" />
+		<zip basedir="${dist}" destfile="${dist}/server_o2oportal.zip" update="true">
+			<include name="conf/**/*" />
+			<include name="bin/**/*" />
+			<include name="repository/**/*" />
+			<include name="security/**/*" />
+			<include name="web/**/*" />
+			<include name="tmp" />
+		</zip>
+		<!-- zip common server with web -->
+	</target>
+
+	<!-- 构建Asn的jar包 -->
+	<target name="asn-clearAsn1">
+		<delete dir="${make}/asn/classes" />
+		<delete dir="${make}/asn/docs" />
+		<delete dir="${make}/asn/src" />
+		<delete dir="${make}/asn/Makefile" />
+	</target>
+	<target name="asn-makeAsn1" depends="asn-clearAsn1">
+		<exec dir="${basedir}/make/asn" executable="cmd.exe">
+			<arg line="/c buildAsn.bat" />
+		</exec>
+		<exec dir="${basedir}/make/asn" executable="cmd.exe">
+			<arg line="/c buildMamAsn.bat" />
+		</exec>
+		<exec dir="${basedir}/make/asn" executable="cmd.exe">
+					<arg line="/c buildEmoSsvAsn.bat" />
+		</exec>
+	</target>
+	<target name="asn-compileAsn1" depends="asn-makeAsn1">
+		<mkdir dir="${basedir}/make/asn/classes" />
+		<javac destdir="${basedir}/make/asn/classes" target="1.8" source="1.8" includeantruntime="false"
+			   debug="${debugsw}" optimize="${optsw}" verbose="no" deprecation="${depsw}" encoding="GBK">
+			<src path="${basedir}/make/asn/src" />
+			<classpath refid="build.class.path" />
+		</javac>
+	</target>
+
+	<target name="asn-makeAsnJar" depends="asn-compileAsn1">
+		<delete file="${make}/asn/o2oportalasn.jar" />
+		<jar jarfile="${basedir}/make/asn/o2oportalasn.jar" update="true">
+			<fileset dir="${make}/asn/classes" includes="**/*" />
+		</jar>
+		<copy todir="${repository}/o2o/jars" overwrite="true">
+			<fileset dir="${make}/asn">
+				<include name="o2oportalasn.jar" />
+			</fileset>
+		</copy>   
+	</target>
+
+	<!-- findbugs begin  -->
+	<property name="findbugs.home" value="${devlib}/../findbugs/findbugs" />
+	<target name="findbugs-createFindBugsPath">
+		<delete dir="${basedir}/development/findbugs" />
+		<unzip src="${basedir}/development/findbugs.zip" dest="${basedir}/development/findbugs" />
+	</target>
+	<target name="findbugs-html">
+		<taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${devlib}/findbugs-ant.jar" />
+		<findbugs projectname="bootstrap" home="${findbugs.home}" output="html" jvmargs="-Xmx384m" outputFile="${basedir}/make/findbugs.html">
+			<sourcePath path="${basedir}/src/" />
+			<class location="${basedir}/classes/" />
+		</findbugs>
+	</target>
+	<target name="01CMO-Findbugs" description="CMO调用的findbugs报告生成脚本。">
+		<antcall target="findbugs-createFindBugsPath" />
+		<antcall target="findbugs-html" />
+	</target>
+	<target name="01CMO-ProjectPrepare" description="工程环境预备脚本。">
+		<delete dir="${make}/sdk/baseserver" />
+		<unzip src="${make}/sdk/o2o_web_server.zip" dest="${make}/sdk/baseserver" />
+		<copy todir="${rootdir}">
+			<fileset dir="${make}/sdk/baseserver">
+				<include name="repository/**/*" />
+				<include name="bin/**/*" />
+				<include name="security/**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${repository}/o2o/jars">
+			<fileset dir="${tmplib}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+	<!-- findbugs end  -->
+</project>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <display-name>RestWebApp</display-name>
+
+    <session-config>
+      <session-timeout>10</session-timeout>
+    </session-config>
+    <!-- 编码过滤，放在其他filter的前面 -->
+    <filter>
+      <filter-name>Encoding</filter-name>
+      <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+      <init-param>
+        <param-name>encoding</param-name>
+        <param-value>utf-8</param-value>
+      </init-param>
+    </filter>
+    <filter-mapping>
+      <filter-name>Encoding</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+      <servlet-name>portalQqAfterLogin</servlet-name>
+      <servlet-class>com.h3c.o2o.portal.servlet.QqAfterLoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+      <servlet-name>portalQqAfterLogin</servlet-name>
+      <url-pattern>/qqAfterLogin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+      <servlet-name>portalQqLoginServlet</servlet-name>
+      <servlet-class>com.h3c.o2o.portal.servlet.QqLoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+      <servlet-name>portalQqLoginServlet</servlet-name>
+      <url-pattern>/qqLogin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+    	<servlet-name>loginServlet</servlet-name>
+    	<servlet-class>com.h3c.o2o.portal.servlet.LoginServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>loginServlet</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+    	<servlet-name>userLogin</servlet-name>
+    	<servlet-class>com.h3c.o2o.portal.servlet.UserLoginServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>userLogin</servlet-name>
+		<url-pattern>/userLogin</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+    	<servlet-name>protocolServlet</servlet-name>
+    	<servlet-class>com.h3c.o2o.portal.servlet.ProtocolServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>protocolServlet</servlet-name>
+		<url-pattern>/protocol/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+    	<servlet-name>TPLoginVerifyServlet</servlet-name>
+    	<servlet-class>com.h3c.o2o.portal.servlet.TPLoginVerifyServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>TPLoginVerifyServlet</servlet-name>
+		<url-pattern>/tPLoginVerify/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+    	<servlet-name>portalFuncControlServlet</servlet-name>
+    	<servlet-class>com.h3c.o2o.portal.servlet.FunctionControlServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>portalFuncControlServlet</servlet-name>
+		<url-pattern>/func/control</url-pattern>
+	</servlet-mapping>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/500.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/500.jsp</location>
+	</error-page>
+  </web-app>
